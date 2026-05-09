@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "Uxie Platform",
   description: "Lofi web",
   icons: {
-    icon: "/uxie.png",
+    icon: "/owl.png",
   },
 };
 export default function RootLayout({ children }: { children: React.ReactNode }) {

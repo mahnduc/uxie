@@ -1,9 +1,7 @@
 <p align="center">
+  <img src="public/owl-2.png" width="170px">
   <img src="public/banner.svg" alt="Uxie - Nền tảng quản lý kiến thức Local-first AI" width="800">
 </p>
-
-<h1 align="center">Uxie (StudyMind-Agent)</h1>
-
 <p align="center">
   <strong>Nền tảng quản lý kiến thức Local-first tối ưu trên trình duyệt với AI Agent</strong>
 </p>
