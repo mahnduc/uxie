@@ -15,9 +15,16 @@ export interface ToolCall {
 
 export interface ChatMessage {
   role: Role;
-  content: string;
+  content: string | null;
   tool_call_id?: string;
-  tool_calls?: ToolCall[];
+  tool_calls?: {
+    id: string;
+    type: "function";
+    function: {
+      name: string;
+      arguments: string;
+    };
+  }[];
 }
 
 export interface GroqChatRequest {
@@ -31,21 +38,10 @@ export interface GroqChatRequest {
 }
 
 export interface GroqChatResponse {
-  id: string;
-  object: string;
-  created: number;
-  model: string;
   choices: {
-    index: number;
     message: ChatMessage;
-    finish_reason: string;
+    finish_reason?: string;
   }[];
-
-  usage?: {
-    prompt_tokens: number;
-    completion_tokens: number;
-    total_tokens: number;
-  };
 }
 
 export interface GroqStreamDelta {

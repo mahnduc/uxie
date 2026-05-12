@@ -1,3 +1,5 @@
+// agent/providers/groq/groq.config.ts
+
 import { ChatMessage, GroqChatRequest, GroqChatResponse } from "./groq.types";
 
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
@@ -63,7 +65,7 @@ export async function callGroqApi(
 export async function* callGroqApiStream(
   params: CallGroqApiParams,
   apiKey: string
-): AsyncGenerator<string> {
+): AsyncGenerator<any> {
   if (!apiKey) {
     throw new Error("Thiếu Groq API Key");
   }
@@ -77,7 +79,6 @@ export async function* callGroqApiStream(
     tool_choice: params.tool_choice ?? "auto",
     stream: true,
   };
-
   const response = await fetch(GROQ_API_URL, {
     method: "POST",
     headers: {
@@ -88,13 +89,19 @@ export async function* callGroqApiStream(
   });
 
   if (!response.ok) {
-    throw new Error("Groq stream failed");
+    let errorMessage = "Groq stream failed";
+
+    try {
+      const err = await response.json();
+      errorMessage = err?.error?.message || errorMessage;
+    } catch {}
+
+    throw new Error(errorMessage);
   }
 
   if (!response.body) {
     throw new Error("No response body");
   }
-
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
 
@@ -114,8 +121,9 @@ export async function* callGroqApiStream(
     for (const line of lines) {
       const trimmed = line.trim();
 
-      if (!trimmed.startsWith("data:")) continue;
-
+      if (!trimmed.startsWith("data:")) {
+        continue;
+      }
       const data = trimmed.replace("data:", "").trim();
 
       if (data === "[DONE]") {
@@ -125,14 +133,27 @@ export async function* callGroqApiStream(
       try {
         const json = JSON.parse(data);
 
-        const content =
-          json.choices?.[0]?.delta?.content;
+        const delta = json.choices?.[0]?.delta;
 
-        if (content) {
-          yield content;
+        if (!delta) continue;
+
+        // text content
+        if (delta.content) {
+          yield {
+            type: "content",
+            content: delta.content,
+          };
         }
-      } catch {
-        //
+        // tool calls
+        if (delta.tool_calls) {
+          yield {
+            type: "tool_calls",
+            tool_calls: delta.tool_calls,
+          };
+        }
+
+      } catch (error) {
+        console.error(error);
       }
     }
   }

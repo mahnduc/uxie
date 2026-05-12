@@ -74,7 +74,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const navItems = [
     { icon: LayoutDashboard, label: "Trang chủ", href: "/dashboard" },
     { icon: BookOpen, label: "Học tập", href: "/dashboard/courses" },
-    { icon: BotMessageSquare, label: "Trò chuyện", href: "/dashboard/chatbot" },
+    { icon: BotMessageSquare, label: "Trò chuyện", href: "/dashboard/chat" },
   ];
 
   if (!mounted || !authorized) {
@@ -85,13 +85,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <div className={`flex h-screen w-full overflow-hidden bg-[#F7F9FB] text-[#2D3436] ${nunito.className}`}>
 
       {/* SIDEBAR */}
-      <aside className="hidden lg:flex w-[240px] border-r border-[#F0F0F0] h-screen bg-white flex-col z-[60] shrink-0 p-4">
+      <aside className="hidden lg:flex w-60 border-r border-[#F0F0F0] h-screen bg-white flex-col z-60 shrink-0 p-4">
         <div className="h-16 flex items-center px-4 mb-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-[#FF3399] rounded-xl flex items-center justify-center shadow-[0_4px_0_#D12A7E]">
               <GraduationCap size={22} className="text-white" strokeWidth={2.5} />
             </div>
-            <span className="font-[900] text-xl tracking-tight text-[#FF3399]">STUDYMIND</span>
+            <span className="font-black text-xl tracking-tight text-[#FF3399]">STUDYMIND</span>
           </div>
         </div>
 
@@ -102,7 +102,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-4 px-4 h-[44px] rounded-xl font-bold transition-all
+                className={`flex items-center gap-4 px-4 h-11 rounded-xl font-bold transition-all
                   ${isActive
                     ? "bg-[#FFF0F7] text-[#FF3399] border-l-[3px] border-[#FF3399]"
                     : "text-[#2D3436] hover:bg-[#F7F9FB]"}`}
@@ -116,7 +116,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         <div className="mt-auto pt-4 border-t border-[#F0F0F0]">
           <Link href="/dashboard/settings"
-            className={`flex items-center gap-4 px-4 h-[44px] rounded-xl font-bold transition-all ${
+            className={`flex items-center gap-4 px-4 h-11 rounded-xl font-bold transition-all ${
               pathname === '/dashboard/settings' ? "bg-[#2D3436] text-white" : "text-[#2D3436] hover:bg-[#F7F9FB]"
             }`}>
             <Settings size={20} strokeWidth={2.5} className={pathname === '/dashboard/settings' ? "text-white" : "text-[#B2BEC3]"} />
@@ -161,7 +161,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {!isHeaderVisible && (
           <button
             onClick={() => setIsHeaderVisible(true)}
-            className="absolute top-4 right-8 z-[51] bg-white border-2 border-[#E5E5E5] border-b-4 p-2 rounded-2xl text-[#FF3399] shadow-lg hover:translate-y-[2px] hover:border-b-2 transition-all animate-bounce"
+            className="absolute top-4 right-8 z-51 bg-white border-2 border-[#E5E5E5] border-b-4 p-2 rounded-2xl text-[#FF3399] shadow-lg hover:translate-y-0.5 hover:border-b-2 transition-all animate-bounce"
             title="Hiện thanh tiêu đề"
           >
             <ChevronDown size={20} strokeWidth={3} />

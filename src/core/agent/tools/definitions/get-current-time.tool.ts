@@ -1,12 +1,11 @@
-import { Tool } from "../tool.interface";
+import { ToolDefinition } from "../tool.interface";
 
-export const getCurrentTimeTool: Tool = {
+export const getCurrentTimeTool: ToolDefinition = {
   name: "get_current_time",
   description: "Lấy thời gian hiện tại",
   parameters: {
     type: "object",
     properties: {},
-    required: [],
   },
 
   async execute() {
